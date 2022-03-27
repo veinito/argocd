@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: ingress-rules
   namespace: {{ .Values.namespace }}
-  annotations: []
+  annotations: {}
 spec:
   ingressClassName: "http-default"
   rules:
