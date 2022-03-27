@@ -1,0 +1,61 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: argo-apps
+spec:
+  generators:
+    - matrix:
+        generators:
+          - git:
+              repoURL: https://github.com/tomasz-zylka/argocd.git
+              revision: HEAD
+              directories:
+                - path: apps/*
+          - list:
+              elements:
+                - cluster: dev
+                  url: https://A1A903D16C3B1B39B30838BAA715FB24.gr7.eu-central-1.eks.amazonaws.com
+                  values:
+                    namespace: default
+                    region: eu-central-1
+                    defaultValueFile: values.yaml
+                - cluster: prod
+                  url: https://52B392114834323CADD4B314F9C4CB3A.gr7.eu-central-1.eks.amazonaws.com
+                  values:
+                    namespace: default
+                    region: eu-central-1
+                    defaultValueFile: values.yaml
+  template:
+    metadata:
+      name: "{{path.basename}}-{{cluster}}"
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/tomasz-zylka/argocd.git
+        targetRevision: HEAD
+        path: "{{path}}"
+        helm:
+          valueFiles:
+            - "{{values.defaultValueFile}}"
+            - "{{cluster}}/{{values.defaultValueFile}}"
+          values: |
+            cluster:
+              role: "{{cluster}}"
+              region: "{{values.region}}"
+      destination:
+        server: "{{url}}"
+        namespace: "{{values.namespace}}"
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - Validate=false
+          - PrunePropagationPolicy=foreground
+          - PruneLast=true
+        retry:
+          limit: 500
+          backoff:
+            duration: 10s
+            factor: 1
+            maxDuration: 3m
