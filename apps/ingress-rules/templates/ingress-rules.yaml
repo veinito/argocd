@@ -5,7 +5,7 @@ metadata:
   namespace: {{ .Values.namespace }}
   annotations: {}
 spec:
-  ingressClassName: "http-default"
+  ingressClassName: http-default
   rules:
   - host: {{ .Values.domain }}
     http:
