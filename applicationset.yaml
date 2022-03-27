@@ -14,13 +14,11 @@ spec:
           - list:
               elements:
                 - cluster: dev
-                  url: https://A1A903D16C3B1B39B30838BAA715FB24.gr7.eu-central-1.eks.amazonaws.com
                   values:
                     namespace: default
                     region: eu-central-1
                     defaultValueFile: values.yaml
                 - cluster: prod
-                  url: https://52B392114834323CADD4B314F9C4CB3A.gr7.eu-central-1.eks.amazonaws.com
                   values:
                     namespace: default
                     region: eu-central-1
@@ -43,7 +41,7 @@ spec:
               role: "{{cluster}}"
               region: "{{values.region}}"
       destination:
-        server: "{{url}}"
+        name: "{{cluster}}"
         namespace: "{{values.namespace}}"
       syncPolicy:
         automated:
