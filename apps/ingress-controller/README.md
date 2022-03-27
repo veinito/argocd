@@ -1,0 +1,1 @@
+Have a look into [helm chart link](https://github.com/nginxinc/kubernetes-ingress/tree/v2.1.1/deployments/helm-chart)

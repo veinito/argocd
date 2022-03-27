@@ -1,0 +1,21 @@
+# https://github.com/nginxinc/kubernetes-ingress/tree/v2.1.1/deployments/helm-chart
+controller:
+  ingressClass: "http-default"
+  enableTLSPassthrough: false
+  healthStatus: true
+  replicaCount: 2
+  service:
+    httpPort:
+      enable: false
+    httpsPort:
+      enable: true
+      targetPort: http
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "600"
+      service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "arn:aws:acm:eu-central-1:550346457415:certificate/96bf8b78-3a56-473c-914e-1f12e5a34079"
+      service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "tcp"
+      service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
+  config:
+    name: http-controller-nginx-ingress
+    entries:
+      worker-connections: "2048"

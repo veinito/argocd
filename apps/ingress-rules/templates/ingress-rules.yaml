@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-rules
+  namespace: {{ .Values.namespace }}
+  annotations: []
+spec:
+  ingressClassName: "http-default"
+  rules:
+  - host: {{ .Values.domain }}
+    http:
+      paths:
+      - path: /
+        backend:
+          service:
+            name: veinito
+            port:
+              number: 80
+  - host: webapp.{{ .Values.domain }}
+    http:
+      paths:
+      - path: /
+        backend:
+          service:
+            name: webapp
+            port:
+              number: 80
