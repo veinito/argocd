@@ -18,11 +18,13 @@ spec:
                     namespace: default
                     region: eu-central-1
                     defaultValueFile: values.yaml
+                    prunePropagationPolicy: Foreground
                 - cluster: prod
                   values:
                     namespace: default
                     region: eu-central-1
                     defaultValueFile: values.yaml
+                    prunePropagationPolicy: Non-cascading
   template:
     metadata:
       name: "{{path.basename}}-{{cluster}}"
@@ -37,6 +39,7 @@ spec:
             - "{{values.defaultValueFile}}"
             - "{{cluster}}/{{values.defaultValueFile}}"
           values: |
+            fullnameOverride: "{{path.basename}}"
             cluster:
               role: "{{cluster}}"
               region: "{{values.region}}"
@@ -48,11 +51,11 @@ spec:
           prune: true
           selfHeal: true
         syncOptions:
-          - Validate=false
-          - PrunePropagationPolicy=foreground
+          - Validate=true
+          - PrunePropagationPolicy={{values.prunePropagationPolicy}}
           - PruneLast=true
         retry:
-          limit: 500
+          limit: 100
           backoff:
             duration: 10s
             factor: 1
