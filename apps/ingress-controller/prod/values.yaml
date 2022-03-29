@@ -11,7 +11,7 @@ controller:
       enable: true
       targetPort: http
     annotations:
-      service.beta.kubernetes.io/aws-load-balancer-ssl-cert: " arn:aws:acm:eu-central-1:785632507427:certificate/149850ce-63c8-4d11-bbeb-f8f544f6c6db"
+      service.beta.kubernetes.io/aws-load-balancer-ssl-cert: " arn:aws:acm:us-east-1:785632507427:certificate/fe70ca7a-7526-42a6-b431-d5d1f95483a2"
       service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "http"
       service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
   config:
