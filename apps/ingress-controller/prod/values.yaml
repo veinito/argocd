@@ -3,7 +3,7 @@ controller:
   ingressClass: "http-default"
   enableTLSPassthrough: false
   healthStatus: true
-  replicaCount: 2
+  replicaCount: 1
   service:
     httpPort:
       enable: false
